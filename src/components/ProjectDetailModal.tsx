@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Check, GitBranch, ExternalLink } from 'lucide-react';
+import type { Project } from '../types';
 
 const overlayVariants = {
   hidden: { opacity: 0 },
@@ -9,14 +10,19 @@ const overlayVariants = {
 
 const modalVariants = {
   hidden: { opacity: 0, y: 60, scale: 0.96 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', damping: 25, stiffness: 300 } },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, damping: 25, stiffness: 300 } },
   exit: { opacity: 0, y: 40, scale: 0.96, transition: { duration: 0.2 } },
 };
 
-export default function ProjectDetailModal({ project, onClose }) {
+interface ProjectDetailModalProps {
+  project: Project;
+  onClose: () => void;
+}
+
+export default function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    const handleEsc = (e: KeyboardEvent): void => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handleEsc);
     return () => {
       document.body.style.overflow = '';
@@ -68,6 +74,7 @@ export default function ProjectDetailModal({ project, onClose }) {
           </span>
           <h2 className="text-2xl md:text-3xl font-bold text-warm-dark mb-3 leading-snug">
             {project.title}
+          </h2>
 
           {/* GitHub & Demo links */}
           {(project.links?.github || project.links?.demo) && (
@@ -96,7 +103,6 @@ export default function ProjectDetailModal({ project, onClose }) {
               )}
             </div>
           )}
-          </h2>
 
           {d.overview && (
             <p className="text-warm-gray text-base leading-relaxed mb-8">

@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Layers, BarChart3, GitBranch } from 'lucide-react';
-import { heroContent, readingList } from '../data/siteContent';
+import { heroContent } from '../data/hero';
+import { readingList } from '../data/reading';
 import { useMouse } from '../context/MouseContext';
+import type { LucideIcon } from 'lucide-react';
 
-const iconMap = { Layers, BarChart3, GitBranch };
+const iconMap: Record<string, LucideIcon> = { Layers, BarChart3, GitBranch };
 
 export default function HeroSection() {
   const { normalizedX, normalizedY, isTouch, reduceMotion } = useMouse();
@@ -49,18 +51,18 @@ export default function HeroSection() {
     return () => clearInterval(typeInterval);
   }, [bookIndex, bookTitles]);
 
-  const heroRef = useRef(null);
+  const heroRef = useRef<HTMLElement>(null);
 
   const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 40 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1], delay },
+    transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] as const, delay },
   });
 
   const fadeUpScale = (delay = 0) => ({
     initial: { opacity: 0, scale: 0.85 },
     animate: { opacity: 1, scale: 1 },
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay },
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const, delay },
   });
 
   return (
@@ -126,14 +128,14 @@ export default function HeroSection() {
 
         {/* Reading list */}
         <div className="mt-6 flex items-center justify-center gap-3 text-white/35 text-xs font-light tracking-wider">
-            <span className="inline-block w-1 h-1 rounded-full bg-white/40" />
-         近期阅读
-         <span className="inline-block w-1 h-1 rounded-full bg-white/40" />
-       </div>
+          <span className="inline-block w-1 h-1 rounded-full bg-white/40" />
+          近期阅读
+          <span className="inline-block w-1 h-1 rounded-full bg-white/40" />
+        </div>
         <p className="text-white/45 text-sm font-light mt-2 font-serif tracking-wide min-h-[1.5em]" aria-live="polite">
-         {displayText}
-         <span className="inline-block w-[2px] h-[1em] bg-white/40 ml-0.5 animate-pulse align-middle" />
-       </p>
+          {displayText}
+          <span className="inline-block w-[2px] h-[1em] bg-white/40 ml-0.5 animate-pulse align-middle" />
+        </p>
 
         {/* Trust anchors */}
         <motion.div
@@ -167,7 +169,7 @@ export default function HeroSection() {
           <a
             href="#contact"
             aria-label="开始合作，跳转到联系区域"
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
               e.preventDefault();
               const el = document.querySelector('#contact');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -184,7 +186,7 @@ export default function HeroSection() {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 2.1, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.6, delay: 2.1, ease: [0.25, 0.1, 0.25, 1] as const }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         aria-hidden="true"
       >

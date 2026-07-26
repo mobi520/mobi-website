@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Mail, Phone, Brain, Compass, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { aboutContent, contactInfo } from '../data/siteContent';
+import { aboutContent } from '../data/about';
+import { contactInfo } from '../data/contact';
+import type { SectionId } from '../types';
+import type { LucideIcon } from 'lucide-react';
 import avatarSrc from '/profile-photo.png';
 
-const labelIconMap = { Brain, Compass };
+const labelIconMap: Record<string, LucideIcon> = { Brain, Compass };
 
-function CountUp({ target, suffix = '', duration = 2000, active = false }) {
+interface CountUpProps {
+  target: string | number;
+  suffix?: string;
+  duration?: number;
+  active?: boolean;
+}
+
+function CountUp({ target, suffix = '', duration = 2000, active = false }: CountUpProps) {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
 
@@ -15,7 +25,7 @@ function CountUp({ target, suffix = '', duration = 2000, active = false }) {
     setHasAnimated(true);
     const startTime = performance.now();
     const numericTarget = Number(target);
-    const animate = (now) => {
+    const animate = (now: number): void => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
@@ -29,7 +39,11 @@ function CountUp({ target, suffix = '', duration = 2000, active = false }) {
   return <span>{count}{suffix}</span>;
 }
 
-export default function AboutSection({ activeSection }) {
+interface AboutSectionProps {
+  activeSection: SectionId;
+}
+
+export default function AboutSection({ activeSection }: AboutSectionProps) {
   const isActive = activeSection === 'about';
 
   return (
@@ -39,7 +53,7 @@ export default function AboutSection({ activeSection }) {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.7, ease: 'power3.out' }}
+        transition={{ duration: 0.7, ease: [0.14, 0.8, 0.32, 1] as const }}
         className="relative z-10 w-full max-w-page mx-auto px-8 md:px-16 h-full flex flex-col justify-center py-12"
       >
         {/* Section header */}
@@ -52,7 +66,7 @@ export default function AboutSection({ activeSection }) {
           {/* Avatar */}
           <div className="lg:col-span-4 flex justify-center">
             <div className="relative hover-scale click-bounce">
-             <img
+              <img
                 src={avatarSrc}
                 alt={aboutContent.introTitle}
                 loading="lazy"
@@ -113,7 +127,7 @@ export default function AboutSection({ activeSection }) {
                 </span>
                 {contactInfo.email}
               </a>
-            <a href={`tel:${contactInfo.phone}`} className="flex items-center gap-2 text-sm text-warm-gray hover:text-warm-dark transition-colors group click-bounce">
+              <a href={`tel:${contactInfo.phone}`} className="flex items-center gap-2 text-sm text-warm-gray hover:text-warm-dark transition-colors group click-bounce">
                 <span className="w-9 h-9 rounded-full bg-white/60 flex items-center justify-center group-hover:bg-white transition-colors backdrop-blur-sm" aria-hidden="true">
                   <Phone size={16} className="text-warm-dark" />
                 </span>

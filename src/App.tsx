@@ -11,19 +11,21 @@ import ReadingPage from './components/ReadingPage';
 import BackToTop from './components/BackToTop';
 import VideoBackground from './components/VideoBackground';
 import CursorGlow from './components/CursorGlow';
+import type { SectionId } from './types';
 
-const SECTIONS = ['hero', 'about', 'projects', 'methodology', 'contact'];
-const SECTION_COUNT = SECTIONS.length;
+const SECTIONS: SectionId[] = ['hero', 'about', 'projects', 'methodology', 'contact'];
+
+type Page = 'home' | 'reading';
 
 export default function App() {
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState<Page>('home');
   const [darkMode, setDarkMode] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState<SectionId>('hero');
   const [sectionIndex, setSectionIndex] = useState(0);
   const [sectionProgress, setSectionProgress] = useState(0);
   const [totalProgress, setTotalProgress] = useState(0);
 
-  const handleNavigate = useCallback((target) => {
+  const handleNavigate = useCallback((target: string) => {
     if (target === 'reading') {
       setPage('reading');
       document.body.style.overflow = 'hidden';
@@ -43,7 +45,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const handler = (e) => handleNavigate(e.detail);
+    const handler = (e: Event) => handleNavigate((e as CustomEvent).detail);
     window.addEventListener('navigate', handler);
     return () => window.removeEventListener('navigate', handler);
   }, [handleNavigate]);
@@ -56,8 +58,8 @@ export default function App() {
   useEffect(() => {
     if (page !== 'home') return;
 
-    const handleScroll = () => {
-      const sectionEls = SECTIONS.map(id => document.getElementById(id)).filter(Boolean);
+    const handleScroll = (): void => {
+      const sectionEls = SECTIONS.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
       if (sectionEls.length === 0) return;
 
       // Determine active section (the one nearest to viewport center)
@@ -83,7 +85,6 @@ export default function App() {
       if (currentEl) {
         const rect = currentEl.getBoundingClientRect();
         const sectionHeight = rect.height || window.innerHeight;
-        // Progress: 0 at section top entering viewport, 1 at section top leaving viewport
         const progress = 1 - (rect.bottom / (window.innerHeight + sectionHeight));
         setSectionProgress(Math.max(0, Math.min(1, progress)));
       }
@@ -117,7 +118,7 @@ export default function App() {
 
       {/* Vertical scroll layout */}
       <div className="relative w-full">
-        <HeroSection activeSection={activeSection} />
+        <HeroSection />
         <AboutSection activeSection={activeSection} />
         <ProjectsSection activeSection={activeSection} />
         <StrengthsSection activeSection={activeSection} />

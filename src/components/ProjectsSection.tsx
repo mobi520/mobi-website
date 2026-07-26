@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Code2, ExternalLink } from 'lucide-react';
-import { projects } from '../data/siteContent';
+import { projects } from '../data/projects';
 import ProjectDetailModal from './ProjectDetailModal';
+import type { Project, SectionId } from '../types';
 
-function ProjectCard({ project, index, onClick }) {
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+  onClick: () => void;
+}
+
+function ProjectCard({ project, index, onClick }: ProjectCardProps) {
   const hasDetail = !!project.detail;
   const hasLinks = project.links && (project.links.github || project.links.demo);
   const hasImage = !!project.image;
@@ -13,7 +20,7 @@ function ProjectCard({ project, index, onClick }) {
   const [glowX, setGlowX] = useState(50);
   const [glowY, setGlowY] = useState(50);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>): void => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -26,7 +33,7 @@ function ProjectCard({ project, index, onClick }) {
     setGlowY((y / rect.height) * 100);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (): void => {
     setRotateX(0);
     setRotateY(0);
     setGlowX(50);
@@ -35,11 +42,11 @@ function ProjectCard({ project, index, onClick }) {
 
   return (
     <div
-      className={`card-editorial group overflow-hidden hover-scale click-bounce cursor-pointer ${hasDetail ? '' : ''}`}
+      className={`card-editorial group overflow-hidden hover-scale click-bounce cursor-pointer`}
       onClick={hasDetail ? onClick : undefined}
       role={hasDetail ? 'button' : undefined}
       tabIndex={hasDetail ? 0 : undefined}
-      onKeyDown={hasDetail ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+      onKeyDown={hasDetail ? (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -127,9 +134,13 @@ function ProjectCard({ project, index, onClick }) {
   );
 }
 
-export default function ProjectsSection({ activeSection }) {
+interface ProjectsSectionProps {
+  activeSection: SectionId;
+}
+
+export default function ProjectsSection({ activeSection }: ProjectsSectionProps) {
   const isActive = activeSection === 'projects';
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
     <section id="projects" className="horizontal-panel">
@@ -138,7 +149,7 @@ export default function ProjectsSection({ activeSection }) {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.7, ease: 'power3.out' }}
+        transition={{ duration: 0.7, ease: [0.14, 0.8, 0.32, 1] as const }}
         className="relative z-10 w-full max-w-page mx-auto px-8 md:px-16 h-full flex flex-col justify-center py-10"
       >
         <div className="mb-6">
