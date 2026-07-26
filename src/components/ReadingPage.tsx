@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { X, BookOpen, Quote, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { readingList } from '../data/reading';
 import { siteMeta } from '../data/site';
 
@@ -28,6 +29,7 @@ interface ReadingPageProps {
 }
 
 export default function ReadingPage({ onClose }: ReadingPageProps) {
+  const { t } = useTranslation();
   return (
     <motion.div
       className="fixed inset-0 z-40 bg-[#f8f6f4] overflow-y-auto"
@@ -44,7 +46,7 @@ export default function ReadingPage({ onClose }: ReadingPageProps) {
             className="flex items-center gap-2 text-sm text-warm-gray hover:text-warm-dark transition-colors group"
           >
             <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
-            返回首页
+            {t('reading.backToHome')}
           </button>
           <span className="text-xs text-warm-muted font-medium tracking-wider uppercase">
             {siteMeta.name} · 书影
@@ -64,13 +66,13 @@ export default function ReadingPage({ onClose }: ReadingPageProps) {
             <div className="w-10 h-10 rounded-xl bg-warm-dark/5 flex items-center justify-center">
               <BookOpen size={18} className="text-warm-dark" strokeWidth={1.5} />
             </div>
-            <span className="text-xs text-warm-muted tracking-[0.2em] uppercase font-medium">Reading</span>
+            <span className="text-xs text-warm-muted tracking-[0.2em] uppercase font-medium">{t('reading.readingLabel')}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-warm-dark leading-[1.1] tracking-[-0.02em] mb-4">
-            书影与反思
+            {t('reading.title')}
           </h1>
           <p className="text-warm-gray text-base md:text-lg max-w-xl leading-relaxed">
-            每本书是一道窄门。门这边是作者的世界，门那边是自己的理解。跨越这道门，就是我理解的"成长"。
+            {t('reading.description')}
           </p>
         </motion.div>
 
@@ -151,12 +153,12 @@ export default function ReadingPage({ onClose }: ReadingPageProps) {
           transition={{ duration: 0.5, delay: 1.2 }}
           className="mt-16 pt-8 border-t border-gray-200 text-center"
         >
-          <p className="text-warm-muted text-sm mb-2">每本书都是一道窄门，推开它，世界就大一点。</p>
+          <p className="text-warm-muted text-sm mb-2">{t('reading.footerText')}</p>
           <button
             onClick={onClose}
             className="inline-flex items-center gap-1.5 text-sm text-warm-dark hover:text-warm-accent transition-colors mt-2"
           >
-            返回首页 <ArrowLeft size={14} />
+            {t('reading.backToHome')} <ArrowLeft size={14} />
           </button>
         </motion.div>
       </div>

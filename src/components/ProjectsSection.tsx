@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Code2, ExternalLink } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { projects } from '../data/projects';
 import ProjectDetailModal from './ProjectDetailModal';
 import type { Project, SectionId } from '../types';
@@ -105,7 +106,7 @@ function ProjectCard({ project, index, onClick }: ProjectCardProps) {
                 onClick={(e) => e.stopPropagation()}
               >
                 <Code2 size={11} strokeWidth={1.5} />
-                源码
+                {t('projects.sourceCode')}
               </a>
             )}
             {project.links.demo && (
@@ -139,6 +140,7 @@ interface ProjectsSectionProps {
 }
 
 export default function ProjectsSection({ activeSection }: ProjectsSectionProps) {
+  const { t } = useTranslation();
   const isActive = activeSection === 'projects';
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -153,9 +155,9 @@ export default function ProjectsSection({ activeSection }: ProjectsSectionProps)
         className="relative z-10 w-full max-w-page mx-auto px-8 md:px-16 h-full flex flex-col justify-center py-10"
       >
         <div className="mb-6">
-          <p className="section-subtitle-magazine text-warm-muted mb-2">Selected Works</p>
-          <h2 className="section-title-magazine text-warm-dark">精选项目</h2>
-          <p className="text-warm-gray mt-2 text-sm max-w-lg">每个项目都是一次从策略到交付的完整旅程</p>
+          <p className="section-subtitle-magazine text-warm-muted mb-2">{t('projects.sectionLabel')}</p>
+          <h2 className="section-title-magazine text-warm-dark">{t('projects.sectionTitle')}</h2>
+          <p className="text-warm-gray mt-2 text-sm max-w-lg">{t('projects.sectionDesc')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

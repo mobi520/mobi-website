@@ -6,6 +6,7 @@ import { ThinkingInStructures, ReadingAndThinking } from '../data/blog/posts';
 import SEOHead from './SEOHead';
 import { BlogPostSchema } from './JsonLd';
 import CodeBlock from './CodeBlock';
+import GiscusComments from './GiscusComments';
 import type { ComponentType } from 'react';
 
 // MDX component map
@@ -131,6 +132,11 @@ export default function BlogPostView({ slug, onBack }: BlogPostViewProps) {
               <PostComponent components={mdxComponents} />
             </div>
           </motion.div>
+
+          {/* Giscus Comments */}
+          <div className="mt-12">
+            <GiscusComments />
+          </div>
 
           {/* Footer */}
           <div className="mt-16 pt-8 border-t border-gray-200 text-center">

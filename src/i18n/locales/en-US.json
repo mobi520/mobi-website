@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "about": "About",
+    "reading": "Books",
+    "projects": "Projects",
+    "methodology": "Method",
+    "contact": "Contact",
+    "blog": "Blog",
+    "darkMode": "Switch to dark mode",
+    "lightMode": "Switch to light mode",
+    "contactMe": "Contact Me",
+    "mobileMenu": "Mobile navigation",
+    "backToTop": "Back to top"
+  },
+  "hero": {
+    "recentReading": "Recent Reading",
+    "startCooperation": "Start collaboration, jump to contact section",
+    "scroll": "Scroll"
+  },
+  "about": {
+    "sectionLabel": "About",
+    "sectionTitle": "About Me",
+    "downloadResume": "Download Resume (PDF)"
+  },
+  "projects": {
+    "sectionLabel": "Selected Works",
+    "sectionTitle": "Featured Projects",
+    "sectionDesc": "Each project is a complete journey from strategy to delivery",
+    "sourceCode": "Source",
+    "demo": "Demo"
+  },
+  "methodology": {
+    "sectionLabel": "Methodology",
+    "sectionTitle": "Methodology",
+    "sectionDesc": "From problem to solution, every step follows a structure. Here are the thinking frameworks I have refined over time."
+  },
+  "contact": {
+    "sendMessage": "Send me a message",
+    "yourName": "Your name",
+    "email": "Email address",
+    "message": "Share your thoughts or questions...",
+    "messageContent": "Message content",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "sent": "Message Sent",
+    "willReply": "I'll get back to you soon",
+    "loading": "Loading...",
+    "bookingCta": "Book a time to chat",
+    "scanQR": "Scan to add on WeChat",
+    "viewQR": "View WeChat QR code",
+    "copy": "Copy to clipboard",
+    "downloadResume": "Download Resume"
+  },
+  "reading": {
+    "backToHome": "Back to Home",
+    "title": "Books & Reflections",
+    "description": "Each book is a narrow door. On one side is the author's world; on the other is your own understanding. Crossing this door is what I call growth.",
+    "readingLabel": "Reading",
+    "recentReading": "Recent Deep Reads",
+    "readingNote": "Reading Notes",
+    "footerText": "Every book is a narrow door. Open it, and the world becomes a little bigger."
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Thoughts, reading & methodology notes",
+    "all": "All",
+    "search": "Search articles...",
+    "readMore": "Read More",
+    "backToBlog": "Back to Blog",
+    "backToBlogList": "Back to Blog List",
+    "notFound": "Article not found",
+    "thankYou": "Thanks for reading",
+    "noResults": "No matching articles found",
+    "publishedOn": "Published on"
+  },
+  "footer": {
+    "explore": "Explore",
+    "depth": "Deep Dive",
+    "contact": "Contact",
+    "aboutMe": "About Me",
+    "email": "Email",
+    "wechat": "WeChat",
+    "phone": "Phone"
+  },
+  "language": {
+    "zh": "中",
+    "en": "EN"
+  }
+}
