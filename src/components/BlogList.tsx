@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Tag, ArrowRight, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import Fuse from 'fuse.js';
 import { getSortedPosts, getAllTags, getPostsByTag } from '../data/blog/posts';
 import type { BlogMeta } from '../types/blog';
 
@@ -9,19 +11,20 @@ interface BlogListProps {
 }
 
 export default function BlogList({ onSelectPost }: BlogListProps) {
+  const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const posts = selectedTag ? getPostsByTag(selectedTag) : getSortedPosts();
   const allTags = getAllTags();
 
+  const fuse = useMemo(
+    () => new Fuse(posts, { keys: ['title', 'excerpt', 'tags'], threshold: 0.3 }),
+    [posts]
+  );
+
   const filteredPosts = searchQuery
-    ? posts.filter(
-        (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
+    ? fuse.search(searchQuery).map((r) => r.item)
     : posts;
 
   const formatDate = (dateStr: string): string => {
@@ -42,8 +45,8 @@ export default function BlogList({ onSelectPost }: BlogListProps) {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-warm-dark mb-4">博客</h1>
-          <p className="text-warm-gray text-lg">思考、阅读与方法的沉淀</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-warm-dark mb-4">{t('blog.title')}</h1>
+          <p className="text-warm-gray text-lg">{t('blog.description')}</p>
         </motion.div>
 
         {/* Search */}
@@ -51,7 +54,7 @@ export default function BlogList({ onSelectPost }: BlogListProps) {
           <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-warm-muted" />
           <input
             type="text"
-            placeholder="搜索文章..."
+            placeholder={t('blog.search')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-gray-200 text-warm-dark placeholder-warm-muted focus:outline-none focus:border-warm-accent/30 transition-colors"
@@ -68,7 +71,7 @@ export default function BlogList({ onSelectPost }: BlogListProps) {
                 : 'bg-white text-warm-gray hover:bg-warm-bg border border-gray-200'
             }`}
           >
-            全部
+            {t('blog.all')}
           </button>
           {allTags.map((tag) => (
             <button
@@ -97,7 +100,7 @@ export default function BlogList({ onSelectPost }: BlogListProps) {
             />
           ))}
           {filteredPosts.length === 0 && (
-            <p className="text-center text-warm-muted py-12">没有找到匹配的文章</p>
+            <p className="text-center text-warm-muted py-12">{t('blog.noResults')}</p>
           )}
         </div>
       </div>
@@ -141,7 +144,7 @@ function PostCard({ post, index, onClick, formatDate }: PostCardProps) {
       <p className="text-warm-gray text-sm leading-relaxed mb-4">{post.excerpt}</p>
 
       <div className="flex items-center gap-1.5 text-sm text-warm-muted group-hover:text-warm-dark transition-colors">
-        阅读全文 <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+        {t('blog.readMore')} <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
       </div>
     </motion.article>
   );

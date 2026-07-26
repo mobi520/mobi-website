@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Mail, Phone, Brain, Compass, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { aboutContent } from '../data/about';
 import { contactInfo } from '../data/contact';
 import type { SectionId } from '../types';
@@ -44,6 +45,7 @@ interface AboutSectionProps {
 }
 
 export default function AboutSection({ activeSection }: AboutSectionProps) {
+  const { t } = useTranslation();
   const isActive = activeSection === 'about';
 
   return (
@@ -58,8 +60,8 @@ export default function AboutSection({ activeSection }: AboutSectionProps) {
       >
         {/* Section header */}
         <div className="mb-8">
-          <p className="section-subtitle-magazine text-warm-muted mb-3">About</p>
-          <h2 className="section-title-magazine text-warm-dark">关于我</h2>
+          <p className="section-subtitle-magazine text-warm-muted mb-3">{t('about.sectionLabel')}</p>
+          <h2 className="section-title-magazine text-warm-dark">{t('about.sectionTitle')}</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -140,7 +142,7 @@ export default function AboutSection({ activeSection }: AboutSectionProps) {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-warm-dark text-white text-sm font-medium hover:opacity-90 transition-all shadow-sm click-bounce hover-scale"
               >
                 <FileText size={15} strokeWidth={1.5} />
-                下载简历
+                {t('about.downloadResume')}
               </a>
             </div>
           </div>

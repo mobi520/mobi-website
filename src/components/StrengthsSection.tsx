@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Search, Layers, GitBranch, BarChart3, FileText, Zap } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { strengths } from '../data/strengths';
 import type { Strength, SectionId } from '../types';
 import type { LucideIcon } from 'lucide-react';
@@ -67,6 +68,7 @@ interface StrengthsSectionProps {
 }
 
 export default function StrengthsSection({ activeSection }: StrengthsSectionProps) {
+  const { t } = useTranslation();
   const isActive = activeSection === 'methodology';
 
   return (
@@ -80,11 +82,9 @@ export default function StrengthsSection({ activeSection }: StrengthsSectionProp
         className="relative z-10 w-full max-w-page mx-auto px-8 md:px-16 h-full flex flex-col justify-center py-10"
       >
         <div className="mb-6">
-          <p className="section-subtitle-magazine text-warm-muted mb-2">Methodology</p>
-          <h2 className="section-title-magazine text-warm-dark">方法论</h2>
-          <p className="text-warm-gray mt-2 text-sm max-w-lg">
-            从问题到方案，每一步都有结构可循。以下是我反复打磨的思考框架。
-          </p>
+          <p className="section-subtitle-magazine text-warm-muted mb-2">{t('methodology.sectionLabel')}</p>
+          <h2 className="section-title-magazine text-warm-dark">{t('methodology.sectionTitle')}</h2>
+          <p className="text-warm-gray mt-2 text-sm max-w-lg">{t('methodology.sectionDesc')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto">

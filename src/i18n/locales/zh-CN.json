@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "about": "关于",
+    "reading": "书影",
+    "projects": "项目",
+    "methodology": "方法论",
+    "contact": "联系",
+    "blog": "博客",
+    "darkMode": "切换为深色模式",
+    "lightMode": "切换为亮色模式",
+    "contactMe": "联系我",
+    "mobileMenu": "移动端导航",
+    "backToTop": "回到顶部"
+  },
+  "hero": {
+    "recentReading": "近期阅读",
+    "startCooperation": "开始合作，跳转到联系区域",
+    "scroll": "Scroll"
+  },
+  "about": {
+    "sectionLabel": "About",
+    "sectionTitle": "关于我",
+    "downloadResume": "下载简历 (PDF)"
+  },
+  "projects": {
+    "sectionLabel": "Selected Works",
+    "sectionTitle": "精选项目",
+    "sectionDesc": "每个项目都是一次从策略到交付的完整旅程",
+    "sourceCode": "源码",
+    "demo": "演示"
+  },
+  "methodology": {
+    "sectionLabel": "Methodology",
+    "sectionTitle": "方法论",
+    "sectionDesc": "从问题到方案，每一步都有结构可循。以下是我反复打磨的思考框架。"
+  },
+  "contact": {
+    "sendMessage": "发消息给我",
+    "yourName": "你的名字",
+    "email": "邮箱地址",
+    "message": "说说你的想法或问题……",
+    "messageContent": "消息内容",
+    "send": "发送消息",
+    "sending": "正在发送",
+    "sent": "消息已发送",
+    "willReply": "我会尽快回复",
+    "loading": "加载中...",
+    "bookingCta": "预约时间聊聊",
+    "scanQR": "扫码添加微信",
+    "viewQR": "查看微信二维码",
+    "copy": "复制到剪贴板",
+    "downloadResume": "下载简历"
+  },
+  "reading": {
+    "backToHome": "返回首页",
+    "title": "书影与反思",
+    "description": "每本书是一道窄门。门这边是作者的世界，门那边是自己的理解。跨越这道门，就是我理解的「成长」。",
+    "readingLabel": "Reading",
+    "recentReading": "近期深度阅读",
+    "readingNote": "阅读笔记",
+    "footerText": "每本书都是一道窄门，推开它，世界就大一点。"
+  },
+  "blog": {
+    "title": "博客",
+    "description": "思考、阅读与方法的沉淀",
+    "all": "全部",
+    "search": "搜索文章...",
+    "readMore": "阅读全文",
+    "backToBlog": "返回博客",
+    "backToBlogList": "返回博客列表",
+    "notFound": "文章未找到",
+    "thankYou": "感谢阅读",
+    "noResults": "没有找到匹配的文章",
+    "publishedOn": "发布于"
+  },
+  "footer": {
+    "explore": "探索",
+    "depth": "深度",
+    "contact": "联系",
+    "aboutMe": "关于我",
+    "email": "邮箱",
+    "wechat": "微信",
+    "phone": "手机"
+  },
+  "language": {
+    "zh": "中",
+    "en": "EN"
+  }
+}

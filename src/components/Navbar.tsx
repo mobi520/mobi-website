@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { siteMeta } from '../data/site';
 import { navLinks } from '../data/nav';
+import LanguageSwitcher from './LanguageSwitcher';
 import type { SectionId } from '../types';
 
 const SECTION_IDS: SectionId[] = ['hero', 'about', 'projects', 'methodology', 'contact'];
@@ -15,7 +17,17 @@ interface NavbarProps {
   totalProgress: number;
 }
 
+// Map nav href to i18n key
+const navLabelKeys: Record<string, string> = {
+  '#about': 'nav.about',
+  '#reading': 'nav.reading',
+  '#projects': 'nav.projects',
+  '#methodology': 'nav.methodology',
+  '#contact': 'nav.contact',
+};
+
 export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSection, totalProgress }: NavbarProps) {
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -99,7 +111,7 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
                   scrolled ? 'text-warm-dark' : 'text-white/90'
                 }`}
               >
-                {link.label}
+                {t(navLabelKeys[link.href] || link.label)}
               </a>
             ))}
             <a
@@ -109,11 +121,12 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
                 scrolled ? 'text-warm-dark' : 'text-white/90'
               }`}
             >
-              博客
+              {t('nav.blog')}
             </a>
+            <LanguageSwitcher />
             <button
               onClick={toggleDarkMode}
-              aria-label={darkMode ? '切换为亮色模式' : '切换为深色模式'}
+              aria-label={darkMode ? t('nav.lightMode') : t('nav.darkMode')}
               className={`p-2 rounded-full transition-colors click-bounce ${
                 scrolled ? 'text-warm-dark hover:bg-warm-bg' : 'text-white/70 hover:bg-white/10'
               }`}
@@ -126,7 +139,7 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
               aria-label="联系我"
               className={`btn-liquid !py-2 !px-5 !text-sm ${scrolled ? 'btn-liquid-dark' : ''} hover-gradient-sweep click-bounce`}
             >
-              联系我
+              {t('nav.contactMe')}
             </a>
           </div>
 
@@ -169,7 +182,7 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
                     : 'text-warm-dark/60 hover:text-warm-dark'
                 }`}
               >
-                {link.label}
+                {t(navLabelKeys[link.href] || link.label)}
               </a>
             ))}
             <a
@@ -177,14 +190,14 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
               onClick={(e) => { e.preventDefault(); setMobileOpen(false); onNavigate('blog'); }}
               className="text-sm font-medium text-warm-dark/60 hover:text-warm-dark transition-opacity"
             >
-              博客
+              {t('nav.blog')}
             </a>
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
               className="btn-liquid-dark inline-flex !py-2 !px-5 !text-sm w-fit click-bounce"
             >
-              联系我
+              {t('nav.contactMe')}
             </a>
           </nav>
         </div>
