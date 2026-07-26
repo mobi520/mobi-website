@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="50%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="block" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d2d30"/>
+      <stop offset="100%" style="stop-color:#4a4a50"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative glow -->
+  <circle cx="300" cy="200" r="300" fill="url(#accent)" opacity="0.04"/>
+  <circle cx="900" cy="400" r="250" fill="url(#accent)" opacity="0.06"/>
+
+  <!-- Subtle grid overlay -->
+  <g opacity="0.02">
+    <line x1="0" y1="0" x2="0" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="630" stroke="white" stroke-width="0.5"/>
+    <line x1="400" y1="0" x2="400" y2="630" stroke="white" stroke-width="0.5"/>
+    <line x1="600" y1="0" x2="600" y2="630" stroke="white" stroke-width="0.5"/>
+    <line x1="800" y1="0" x2="800" y2="630" stroke="white" stroke-width="0.5"/>
+    <line x1="1000" y1="0" x2="1000" y2="630" stroke="white" stroke-width="0.5"/>
+    <line x1="1200" y1="0" x2="1200" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="210" x2="1200" y2="210" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="420" x2="1200" y2="420" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="630" x2="1200" y2="630" stroke="white" stroke-width="1"/>
+  </g>
+
+  <!-- Left content -->
+  <g transform="translate(80, 0)">
+    <!-- Brand heading -->
+    <rect x="0" y="80" width="64" height="6" rx="3" fill="url(#accent)"/>
+    <text x="0" y="130" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif" font-size="28" font-weight="300" fill="rgba(255,255,255,0.5)" letter-spacing="4">BEHAVIORAL STRATEGIST</text>
+
+    <!-- Value Proposition -->
+    <text x="0" y="210" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif" font-size="72" font-weight="800" fill="white" letter-spacing="-2">事实驱动的</text>
+    <text x="0" y="300" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif" font-size="72" font-weight="800" fill="white" letter-spacing="-2">策略师</text>
+
+    <!-- Description -->
+    <text x="0" y="380" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="28" font-weight="300" fill="rgba(255,255,255,0.55)" letter-spacing="0">用逻辑拆解复杂问题，用洞察降低决策风险</text>
+
+    <!-- Divider -->
+    <line x1="0" y1="430" x2="180" y2="430" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+    <!-- Trust anchors -->
+    <text x="0" y="480" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="18" font-weight="400" fill="rgba(255,255,255,0.4)">
+      跨学科框架      ·      事实驱动决策      ·      结构化输出
+    </text>
+  </g>
+
+  <!-- Right decorative block -->
+  <g transform="translate(850, 140)">
+    <rect x="0" y="0" width="220" height="220" rx="24" fill="url(#block)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <text x="42" y="110" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="44" font-weight="600" fill="rgba(255,255,255,0.1)">策略</text>
+    <text x="42" y="165" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="44" font-weight="600" fill="rgba(255,255,255,0.1)">咨询</text>
+  </g>
+</svg>

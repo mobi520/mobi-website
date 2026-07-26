@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F8F0EC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FBF6F1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C49A8C;stop-opacity:0.12" />
+      <stop offset="100%" style="stop-color:#D4B896;stop-opacity:0.04" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg2)"/>
+  <rect x="60" y="60" width="680" height="480" rx="16" fill="white" stroke="#EDE0D4" stroke-width="1" opacity="0.6"/>
+  <text x="100" y="120" font-family="'Noto Serif SC',serif" font-size="22" fill="#3A2F2B" letter-spacing="1">治疗方案推荐</text>
+  <text x="100" y="150" font-family="sans-serif" font-size="12" fill="#8B7D78">基于面部状态、情绪压力和睡眠质量匹配疗程</text>
+  <rect x="100" y="180" width="600" height="72" rx="12" fill="url(#card)" stroke="#EDE0D4" stroke-width="0.5"/>
+  <text x="130" y="210" font-family="sans-serif" font-size="28" font-weight="bold" fill="#C49A8C">94</text>
+  <text x="130" y="233" font-family="sans-serif" font-size="8" fill="#B8A8A2">匹配度</text>
+  <text x="210" y="205" font-family="serif" font-size="15" fill="#3A2F2B">玫瑰金丝蛋白线雕</text>
+  <text x="210" y="228" font-family="sans-serif" font-size="10" fill="#8B7D78">紧致提拉 · 3次/疗程 · 5-7天恢复</text>
+  <!-- Repeat cards with different matches -->
+  <rect x="100" y="266" width="600" height="72" rx="12" fill="url(#card)" stroke="#EDE0D4" stroke-width="0.5"/>
+  <text x="130" y="296" font-family="sans-serif" font-size="28" font-weight="bold" fill="#9B8EC4">88</text>
+  <text x="210" y="291" font-family="serif" font-size="15" fill="#3A2F2B">深海胶原水光焕肤</text>
+  <rect x="100" y="352" width="600" height="72" rx="12" fill="url(#card)" stroke="#EDE0D4" stroke-width="0.5"/>
+  <text x="130" y="382" font-family="sans-serif" font-size="28" font-weight="bold" fill="#D4B896">82</text>
+  <text x="210" y="377" font-family="serif" font-size="15" fill="#3A2F2B">光子嫩肤修复疗程</text>
+</svg>
