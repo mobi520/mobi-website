@@ -82,6 +82,13 @@ export default function VideoBackground({ activeScene = 'hero', sectionProgress 
   const parallaxX = reduceMotion || isTouch ? 0 : mouseRef.current.x * 20;
   const parallaxY = reduceMotion || isTouch ? 0 : mouseRef.current.y * 12;
 
+  // Skip video on mobile to save bandwidth
+  if (isTouch) {
+    return (
+      <div className="fixed inset-0 -z-10 overflow-hidden bg-[#0a120d]" aria-hidden="true" />
+    );
+  }
+
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
       {SECTIONS.map((key) => {
