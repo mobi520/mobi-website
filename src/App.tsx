@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 import { MouseProvider } from './context/MouseContext';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
@@ -11,11 +12,16 @@ import ReadingPage from './components/ReadingPage';
 import BackToTop from './components/BackToTop';
 import VideoBackground from './components/VideoBackground';
 import CursorGlow from './components/CursorGlow';
+import SEOHead from './components/SEOHead';
+import { WebSiteSchema } from './components/JsonLd';
+import BlogList from './components/BlogList';
+import BlogPostView from './components/BlogPost';
+import { siteMeta } from './data/site';
 import type { SectionId } from './types';
 
 const SECTIONS: SectionId[] = ['hero', 'about', 'projects', 'methodology', 'contact'];
 
-type Page = 'home' | 'reading';
+type Page = 'home' | 'reading' | 'blog-list' | { blogPost: string };
 
 export default function App() {
   const [page, setPage] = useState<Page>('home');
@@ -29,6 +35,9 @@ export default function App() {
     if (target === 'reading') {
       setPage('reading');
       document.body.style.overflow = 'hidden';
+    } else if (target === 'blog') {
+      setPage('blog-list');
+      document.body.style.overflow = '';
     } else {
       setPage('home');
       document.body.style.overflow = '';
@@ -38,6 +47,15 @@ export default function App() {
   const handleCloseReading = useCallback(() => {
     setPage('home');
     document.body.style.overflow = '';
+  }, []);
+
+  const handleSelectPost = useCallback((slug: string) => {
+    setPage({ blogPost: slug });
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleBackToBlogList = useCallback(() => {
+    setPage('blog-list');
   }, []);
 
   const toggleDarkMode = useCallback(() => {
@@ -62,7 +80,6 @@ export default function App() {
       const sectionEls = SECTIONS.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
       if (sectionEls.length === 0) return;
 
-      // Determine active section (the one nearest to viewport center)
       let currentIdx = 0;
       let minDist = Infinity;
       const viewCenter = window.innerHeight / 2;
@@ -80,7 +97,6 @@ export default function App() {
       setSectionIndex(currentIdx);
       setActiveSection(SECTIONS[currentIdx]);
 
-      // Section progress (how much of current section has scrolled through viewport)
       const currentEl = sectionEls[currentIdx];
       if (currentEl) {
         const rect = currentEl.getBoundingClientRect();
@@ -89,7 +105,6 @@ export default function App() {
         setSectionProgress(Math.max(0, Math.min(1, progress)));
       }
 
-      // Total progress
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       setTotalProgress(maxScroll > 0 ? window.scrollY / maxScroll : 0);
     };
@@ -99,39 +114,86 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [page]);
 
+  const isHomePage = page === 'home';
+  const isBlogPage = page === 'blog-list' || (typeof page === 'object' && 'blogPost' in page);
+
   return (
-    <MouseProvider>
-      <CursorGlow />
-      <VideoBackground
-        activeScene={activeSection}
-        sectionProgress={sectionProgress}
-        sectionIndex={sectionIndex}
-      />
-
-      <Navbar
-        onNavigate={handleNavigate}
-        darkMode={darkMode}
-        toggleDarkMode={toggleDarkMode}
-        activeSection={activeSection}
-        totalProgress={totalProgress}
-      />
-
-      {/* Vertical scroll layout */}
-      <div className="relative w-full">
-        <HeroSection />
-        <AboutSection activeSection={activeSection} />
-        <ProjectsSection activeSection={activeSection} />
-        <StrengthsSection activeSection={activeSection} />
-        <ContactSection activeSection={activeSection} />
-      </div>
-
-      <BackToTop />
-
-      <AnimatePresence>
-        {page === 'reading' && (
-          <ReadingPage onClose={handleCloseReading} />
+    <HelmetProvider>
+      <MouseProvider>
+        {isHomePage && (
+          <>
+            <SEOHead
+              title={`${siteMeta.name} · ${siteMeta.role}`}
+              description={siteMeta.motto}
+              url="https://mobi520.cn"
+            />
+            <WebSiteSchema
+              name={siteMeta.name}
+              url={siteMeta.siteUrl}
+              description={siteMeta.motto}
+            />
+            <CursorGlow />
+            <VideoBackground
+              activeScene={activeSection}
+              sectionProgress={sectionProgress}
+              sectionIndex={sectionIndex}
+            />
+          </>
         )}
-      </AnimatePresence>
-    </MouseProvider>
+
+        {!isBlogPage && (
+          <Navbar
+            onNavigate={handleNavigate}
+            darkMode={darkMode}
+            toggleDarkMode={toggleDarkMode}
+            activeSection={activeSection}
+            totalProgress={totalProgress}
+          />
+        )}
+
+        {/* Vertical scroll layout — home page */}
+        {isHomePage && (
+          <div className="relative w-full">
+            <HeroSection />
+            <AboutSection activeSection={activeSection} />
+            <ProjectsSection activeSection={activeSection} />
+            <StrengthsSection activeSection={activeSection} />
+            <ContactSection activeSection={activeSection} />
+          </div>
+        )}
+
+        {isHomePage && <BackToTop />}
+
+        <AnimatePresence>
+          {page === 'reading' && (
+            <ReadingPage onClose={handleCloseReading} />
+          )}
+        </AnimatePresence>
+
+        {/* Blog pages */}
+        <AnimatePresence mode="wait">
+          {page === 'blog-list' && (
+            <motion.div
+              key="blog-list"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <BlogList onSelectPost={handleSelectPost} />
+            </motion.div>
+          )}
+          {typeof page === 'object' && 'blogPost' in page && (
+            <motion.div
+              key={`blog-post-${page.blogPost}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <BlogPostView slug={page.blogPost} onBack={handleBackToBlogList} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </MouseProvider>
+    </HelmetProvider>
   );
 }
