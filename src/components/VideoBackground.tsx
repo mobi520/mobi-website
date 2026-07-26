@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useMouse } from '../context/MouseContext';
+import type { SectionId } from '../types';
 
-const SECTIONS = ['hero', 'about', 'projects', 'methodology', 'contact'];
-const VIDEO_SRC = {
+const SECTIONS: SectionId[] = ['hero', 'about', 'projects', 'methodology', 'contact'];
+const VIDEO_SRC: Record<SectionId, string> = {
   hero: '/videos/hero.mp4',
   about: '/videos/about.mp4',
   projects: '/videos/projects.mp4',
@@ -10,17 +11,23 @@ const VIDEO_SRC = {
   contact: '/videos/contact.mp4',
 };
 
-export default function VideoBackground({ activeScene = 'hero', sectionProgress = 0, sectionIndex = 0 }) {
-  const videoRefs = useRef({});
+interface VideoBackgroundProps {
+  activeScene?: SectionId;
+  sectionProgress?: number;
+  sectionIndex?: number;
+}
+
+export default function VideoBackground({ activeScene = 'hero', sectionProgress = 0, sectionIndex = 0 }: VideoBackgroundProps) {
+  const videoRefs = useRef<Record<string, HTMLVideoElement>>({});
   const { normalizedX, normalizedY, isTouch, reduceMotion } = useMouse();
   const mouseRef = useRef({ x: 0, y: 0 });
-  const rafRef = useRef(null);
+  const rafRef = useRef<number | null>(null);
   const prevIndexRef = useRef(0);
 
   // Smooth mouse position
   useEffect(() => {
     if (reduceMotion || isTouch) return;
-    const animate = () => {
+    const animate = (): void => {
       mouseRef.current.x += (normalizedX - mouseRef.current.x) * 0.08;
       mouseRef.current.y += (normalizedY - mouseRef.current.y) * 0.08;
       rafRef.current = requestAnimationFrame(animate);
@@ -82,7 +89,7 @@ export default function VideoBackground({ activeScene = 'hero', sectionProgress 
         return (
           <video
             key={key}
-            ref={(el) => { if (el) videoRefs.current[key] = el; }}
+            ref={(el: HTMLVideoElement | null) => { if (el) videoRefs.current[key] = el; }}
             src={VIDEO_SRC[key]}
             muted
             loop

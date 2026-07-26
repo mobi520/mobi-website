@@ -1,7 +1,7 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App';
 
 // 装饰标题滚动入场观察器
 const titleObserver = new IntersectionObserver(
@@ -17,7 +17,7 @@ const titleObserver = new IntersectionObserver(
 );
 
 // 在 DOM 就绪后开始观察
-const observeTitles = () => {
+const observeTitles = (): void => {
   document.querySelectorAll('.section-en-title').forEach((el) => {
     titleObserver.observe(el);
   });
@@ -31,8 +31,11 @@ const domObserver = new MutationObserver(() => {
 });
 domObserver.observe(document.body, { childList: true, subtree: true });
 
-createRoot(document.getElementById('root')).render(
+const rootEl = document.getElementById('root');
+if (!rootEl) throw new Error('Root element #root not found');
+
+createRoot(rootEl).render(
   <StrictMode>
     <App />
   </StrictMode>,
-)
+);

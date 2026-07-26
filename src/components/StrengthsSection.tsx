@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { Search, Layers, GitBranch, BarChart3, FileText, Zap } from 'lucide-react';
-import { strengths } from '../data/siteContent';
+import { strengths } from '../data/strengths';
+import type { Strength, SectionId } from '../types';
+import type { LucideIcon } from 'lucide-react';
 
-const iconMap = { Search, Layers, GitBranch, BarChart3, FileText, Zap };
-const spans = [
+const iconMap: Record<string, LucideIcon> = { Search, Layers, GitBranch, BarChart3, FileText, Zap };
+const spans: string[] = [
   'md:col-span-2',
   'md:col-span-1',
   'md:col-span-1',
@@ -13,7 +15,12 @@ const spans = [
   'md:col-span-1',
 ];
 
-function StrengthCard({ strength, index }) {
+interface StrengthCardProps {
+  strength: Strength;
+  index: number;
+}
+
+function StrengthCard({ strength, index }: StrengthCardProps) {
   const Icon = iconMap[strength.icon] || Search;
   const isLarge = spans[index] === 'md:col-span-2';
 
@@ -55,7 +62,11 @@ function StrengthCard({ strength, index }) {
   );
 }
 
-export default function StrengthsSection({ activeSection }) {
+interface StrengthsSectionProps {
+  activeSection: SectionId;
+}
+
+export default function StrengthsSection({ activeSection }: StrengthsSectionProps) {
   const isActive = activeSection === 'methodology';
 
   return (
@@ -65,7 +76,7 @@ export default function StrengthsSection({ activeSection }) {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.7, ease: 'power3.out' }}
+        transition={{ duration: 0.7, ease: [0.14, 0.8, 0.32, 1] as const }}
         className="relative z-10 w-full max-w-page mx-auto px-8 md:px-16 h-full flex flex-col justify-center py-10"
       >
         <div className="mb-6">

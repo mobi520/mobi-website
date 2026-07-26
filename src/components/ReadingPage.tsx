@@ -1,28 +1,33 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, BookOpen, Quote, ArrowLeft } from 'lucide-react';
-import { readingList, siteMeta } from '../data/siteContent';
+import { readingList } from '../data/reading';
+import { siteMeta } from '../data/site';
 
 const pageVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.5, ease: 'power3.out' },
+    transition: { duration: 0.5, ease: [0.14, 0.8, 0.32, 1] as const },
   },
   exit: {
     opacity: 0,
-    transition: { duration: 0.3, ease: 'power3.in' },
+    transition: { duration: 0.3, ease: [0.32, 0, 0.68, 1] as const },
   },
 };
 
 const bookCardVariants = {
   hidden: { opacity: 0, y: 40, scale: 0.97 },
-  visible: (i) => ({
+  visible: (i: number) => ({
     opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.5, delay: 0.6 + i * 0.12, ease: 'power3.out' },
+    transition: { duration: 0.5, delay: 0.6 + i * 0.12, ease: [0.14, 0.8, 0.32, 1] as const },
   }),
 };
 
-export default function ReadingPage({ onClose }) {
+interface ReadingPageProps {
+  onClose: () => void;
+}
+
+export default function ReadingPage({ onClose }: ReadingPageProps) {
   return (
     <motion.div
       className="fixed inset-0 z-40 bg-[#f8f6f4] overflow-y-auto"
@@ -52,7 +57,7 @@ export default function ReadingPage({ onClose }) {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: 'power3.out' }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.14, 0.8, 0.32, 1] as const }}
           className="mb-16"
         >
           <div className="flex items-center gap-3 mb-4">

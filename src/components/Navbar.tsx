@@ -1,34 +1,43 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
-import { siteMeta, navLinks } from '../data/siteContent';
+import { siteMeta } from '../data/site';
+import { navLinks } from '../data/nav';
+import type { SectionId } from '../types';
 
+const SECTION_IDS: SectionId[] = ['hero', 'about', 'projects', 'methodology', 'contact'];
 const SECTION_COUNT = 5;
 
-export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSection, totalProgress }) {
+interface NavbarProps {
+  onNavigate: (target: string) => void;
+  darkMode: boolean;
+  toggleDarkMode: () => void;
+  activeSection: SectionId;
+  totalProgress: number;
+}
+
+export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSection, totalProgress }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navRef = useRef(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setScrolled(totalProgress > 0.02);
   }, [totalProgress]);
 
-  const getSectionIndex = (href) => {
+  const getSectionIndex = (href: string): number => {
     const id = href.replace('#', '');
-    const ids = ['hero', 'about', 'projects', 'methodology', 'contact'];
-    return ids.indexOf(id);
+    return SECTION_IDS.indexOf(id as SectionId);
   };
 
-  const scrollToSection = (index) => {
+  const scrollToSection = (index: number): void => {
     if (index < 0 || index >= SECTION_COUNT) return;
-    const ids = ['hero', 'about', 'projects', 'methodology', 'contact'];
-    const el = document.getElementById(ids[index]);
+    const el = document.getElementById(SECTION_IDS[index]);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string): void => {
     e.preventDefault();
     setMobileOpen(false);
 
@@ -41,7 +50,7 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
     scrollToSection(index);
   };
 
-  const getLinkClass = (href) => {
+  const getLinkClass = (href: string): string => {
     const sectionId = href.replace('#', '');
     const isActive = sectionId === activeSection;
     return isActive

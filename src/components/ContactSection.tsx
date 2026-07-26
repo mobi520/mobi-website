@@ -1,13 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageCircle, Phone, Copy, Check, Send, ExternalLink, QrCode, X } from 'lucide-react';
-import { contactInfo, contactSectionContent, siteMeta, footerContent } from '../data/siteContent';
+import { contactInfo, contactSectionContent } from '../data/contact';
+import { siteMeta } from '../data/site';
+import { footerContent } from '../data/footer';
+import type { SectionId } from '../types';
+import type { LucideIcon } from 'lucide-react';
 
-function ContactItem({ icon: Icon, label, value, href }) {
+interface ContactItemProps {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  href?: string;
+}
+
+function ContactItem({ icon: Icon, label, value, href }: ContactItemProps) {
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
 
-  const handleCopy = async () => {
+  const handleCopy = async (): Promise<void> => {
     if (copied) return;
     try {
       await navigator.clipboard.writeText(value);
@@ -61,8 +72,10 @@ function ContactItem({ icon: Icon, label, value, href }) {
   );
 }
 
+type FormStatus = 'loading' | 'idle' | 'sending' | 'sent' | 'error';
+
 function ContactForm() {
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState<FormStatus>('loading');
   const [errorDetail, setErrorDetail] = useState('');
   const [endpointOk, setEndpointOk] = useState(false);
 
@@ -76,7 +89,7 @@ function ContactForm() {
     return () => { cancelled = true; };
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!endpointOk) {
       setStatus('error');
@@ -84,8 +97,12 @@ function ContactForm() {
       return;
     }
     setStatus('sending');
-    const form = e.target;
-    const payload = { name: form.name.value, email: form.email.value, message: form.message.value };
+    const form = e.currentTarget;
+    const payload = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value,
+      email: (form.elements.namedItem('email') as HTMLInputElement).value,
+      message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+    };
 
     try {
       const res = await fetch(contactInfo.formEndpoint, {
@@ -177,9 +194,11 @@ function ContactForm() {
   );
 }
 
-export default function ContactSection({ activeSection }) {
-  const isActive = activeSection === 'contact';
+interface ContactSectionProps {
+  activeSection: SectionId;
+}
 
+export default function ContactSection({ activeSection }: ContactSectionProps) {
   return (
     <section id="contact" className="horizontal-panel">
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a120d]/50 via-transparent to-[#0a120d]/70" />
@@ -188,7 +207,7 @@ export default function ContactSection({ activeSection }) {
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.7, ease: 'power3.out' }}
+        transition={{ duration: 0.7, ease: [0.14, 0.8, 0.32, 1] as const }}
         className="relative z-10 w-full max-w-page mx-auto px-8 md:px-16 h-full flex flex-col justify-center py-10"
       >
         <div className="mb-6">
@@ -225,7 +244,7 @@ export default function ContactSection({ activeSection }) {
         {/* Footer info */}
         <div className="pt-4 border-t border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-white/25 text-xs">
-            {siteMeta.name} · {siteMeta.motto || siteMeta.tagline}
+            {siteMeta.name} · {siteMeta.motto}
           </p>
           <p className="text-white/15 text-xs italic">{siteMeta.mottoEn}</p>
           <p className="text-white/15 text-xs">{footerContent.copyright}</p>

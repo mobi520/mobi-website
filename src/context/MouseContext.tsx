@@ -1,35 +1,38 @@
-import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
+import type { MouseState } from '../types';
 
-const MouseContext = createContext(null);
+interface MouseContextValue extends MouseState {}
 
-export function MouseProvider({ children }) {
+const MouseContext = createContext<MouseContextValue | null>(null);
+
+export function MouseProvider({ children }: { children: ReactNode }) {
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5, normalizedX: 0, normalizedY: 0 });
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
-  const rafRef = useRef(null);
+  const rafRef = useRef<number | null>(null);
   const latestRef = useRef({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReduceMotion(mql.matches);
-    const onChange = (e) => setReduceMotion(e.matches);
-    mql.addEventListener?.('change', onChange);
+    const onChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
+    mql.addEventListener('change', onChange);
 
     const touchMql = window.matchMedia('(pointer: coarse)');
     setIsTouch(touchMql.matches);
-    const onTouchChange = (e) => setIsTouch(e.matches);
-    touchMql.addEventListener?.('change', onTouchChange);
+    const onTouchChange = (e: MediaQueryListEvent) => setIsTouch(e.matches);
+    touchMql.addEventListener('change', onTouchChange);
 
     return () => {
-      mql.removeEventListener?.('change', onChange);
-      touchMql.removeEventListener?.('change', onTouchChange);
+      mql.removeEventListener('change', onChange);
+      touchMql.removeEventListener('change', onTouchChange);
     };
   }, []);
 
   useEffect(() => {
     if (reduceMotion || isTouch) return;
 
-    const handleMove = (e) => {
+    const handleMove = (e: MouseEvent): void => {
       latestRef.current = {
         x: e.clientX / window.innerWidth,
         y: e.clientY / window.innerHeight,
@@ -62,7 +65,7 @@ export function MouseProvider({ children }) {
   );
 }
 
-export function useMouse() {
+export function useMouse(): MouseContextValue {
   const ctx = useContext(MouseContext);
   if (!ctx) throw new Error('useMouse must be used within MouseProvider');
   return ctx;
