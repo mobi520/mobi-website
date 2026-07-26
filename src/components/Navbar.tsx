@@ -102,6 +102,15 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
                 {link.label}
               </a>
             ))}
+            <a
+              href="#blog"
+              onClick={(e) => { e.preventDefault(); onNavigate('blog'); }}
+              className={`text-sm font-medium tracking-wide transition-all duration-300 hover:opacity-100 opacity-60 hover:opacity-100 ${
+                scrolled ? 'text-warm-dark' : 'text-white/90'
+              }`}
+            >
+              博客
+            </a>
             <button
               onClick={toggleDarkMode}
               aria-label={darkMode ? '切换为亮色模式' : '切换为深色模式'}
@@ -163,6 +172,13 @@ export default function Navbar({ onNavigate, darkMode, toggleDarkMode, activeSec
                 {link.label}
               </a>
             ))}
+            <a
+              href="#blog"
+              onClick={(e) => { e.preventDefault(); setMobileOpen(false); onNavigate('blog'); }}
+              className="text-sm font-medium text-warm-dark/60 hover:text-warm-dark transition-opacity"
+            >
+              博客
+            </a>
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
